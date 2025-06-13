@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 Store::Store() {
   // Constructor - containers are initialized automatically
@@ -25,15 +26,15 @@ bool Store::loadMovies(const std::string &filename) {
       continue;
     }
 
-    trimString(line);
-    std::vector<std::string> parts = split(line, ',');
+    std::string temp_line = line;
+    trimString(temp_line);
+    std::vector<std::string> parts = split(temp_line, ',');
 
     if (parts.size() < 5) {
       std::cerr << "Error: Invalid movie format: " << line << std::endl;
       continue;
     }
 
-    // Clean up each part
     for (auto &part : parts) {
       trimString(part);
     }
@@ -52,7 +53,6 @@ bool Store::loadMovies(const std::string &filename) {
     std::string title = parts[3];
     std::string extra = parts[4];
 
-    // Add remaining parts to extra for classics (actor month year)
     for (size_t i = 5; i < parts.size(); i++) {
       extra += "," + parts[i];
     }
@@ -62,8 +62,7 @@ bool Store::loadMovies(const std::string &filename) {
     if (movie != nullptr) {
       movies.insert(std::unique_ptr<Movie>(movie));
     } else {
-      std::cerr << "Error: Unknown movie genre '" << genre
-                << "' in line: " << line << std::endl;
+      std::cout << "Unknown movie type: " << genre << ", discarding line: " << line << std::endl;
     }
   }
 
@@ -126,22 +125,18 @@ Movie *Store::findMovie(char genre, const std::string &searchCriteria) {
 
   for (const auto &moviePtr : movies) {
     if (moviePtr->getGenre() == genre) {
-      // Create a temporary movie for comparison based on search criteria
       if (genre == 'F') { // Comedy: Title, Year
         std::vector<std::string> parts = split(parsedCriteria, ',');
         if (parts.size() >= 2) {
           std::string searchTitle = parts[0];
           trimString(searchTitle);
-          int searchYear;
+          int searchYear = 0;
           try {
             searchYear = std::stoi(parts[1]);
-          } catch (...) {
-            continue;
-          }
+          } catch (...) { continue; }
 
           const Comedy *comedy = dynamic_cast<const Comedy *>(moviePtr.get());
-          if ((comedy != nullptr) && comedy->getTitle() == searchTitle &&
-              comedy->getYear() == searchYear) {
+          if (comedy && comedy->getTitle() == searchTitle && comedy->getYear() == searchYear) {
             return moviePtr.get();
           }
         }
@@ -154,32 +149,22 @@ Movie *Store::findMovie(char genre, const std::string &searchCriteria) {
           trimString(searchTitle);
 
           const Drama *drama = dynamic_cast<const Drama *>(moviePtr.get());
-          if ((drama != nullptr) && drama->getDirector() == searchDirector &&
-              drama->getTitle() == searchTitle) {
+          if (drama && drama->getDirector() == searchDirector && drama->getTitle() == searchTitle) {
             return moviePtr.get();
           }
         }
       } else if (genre == 'C') { // Classic: Month Year Actor
-        std::vector<std::string> parts = split(parsedCriteria, ' ');
-        if (parts.size() >= 4) {
-          int searchMonth;
-          int searchYear;
-          try {
-            searchMonth = std::stoi(parts[0]);
-            searchYear = std::stoi(parts[1]);
-          } catch (...) {
-            continue;
-          }
+        std::istringstream iss(parsedCriteria);
+        int searchMonth = 0, searchYear = 0;
+        std::string actorFirstName, actorLastName;
+        
+        iss >> searchMonth >> searchYear >> actorFirstName >> actorLastName;
+        std::string searchActor = actorFirstName + " " + actorLastName;
+        trimString(searchActor);
 
-          std::string searchActor = parts[2] + " " + parts[3];
-
-          const Classic *classic =
-              dynamic_cast<const Classic *>(moviePtr.get());
-          if ((classic != nullptr) && classic->getMonth() == searchMonth &&
-              classic->getYear() == searchYear &&
-              classic->getActor() == searchActor) {
-            return moviePtr.get();
-          }
+        const Classic *classic = dynamic_cast<const Classic *>(moviePtr.get());
+        if (classic && classic->getMonth() == searchMonth && classic->getYear() == searchYear && classic->getActor() == searchActor) {
+          return moviePtr.get();
         }
       }
     }
@@ -198,25 +183,27 @@ Customer *Store::findCustomer(int customerId) {
 bool Store::borrowMovie(int customerId, char mediaType, char movieType,
                         const std::string &movieInfo) {
   if (mediaType != 'D') {
-    std::cerr << "Error: Invalid media type " << mediaType << std::endl;
+    std::cout << "Invalid media type " << mediaType << ", discarding line: " << movieType << " " << movieInfo << std::endl;
     return false;
   }
 
   Customer *customer = findCustomer(customerId);
   if (customer == nullptr) {
-    std::cerr << "Error: Customer " << customerId << " not found" << std::endl;
+    std::cout << "Invalid customer ID " << customerId << ", discarding line: " << mediaType << " " << movieType << " " << movieInfo << std::endl;
     return false;
   }
 
   Movie *movie = findMovie(movieType, movieInfo);
   if (movie == nullptr) {
-    std::cerr << "Error: Movie not found: " << movieInfo << std::endl;
-    return false;
+    std::cout << "Invalid movie for customer " << customer->getFullName() << ", discarding line: " << movieInfo << std::endl;
+    return false; 
   }
 
   if (!movie->borrowMovie()) {
-    std::cerr << "Error: Movie out of stock: " << movie->getTitle()
-              << std::endl;
+    std::cout << "==========================" << std::endl;
+    std::cout << customer->getFullName() << " could NOT borrow " << movie->getTitle() << ", out of stock: " << std::endl;
+    std::cout << "==========================" << std::endl;
+    std::cout << "Failed to execute command: Borrow " << customer->getFullName() << " " << movie->getTitle() << std::endl;
     return false;
   }
 
@@ -227,20 +214,20 @@ bool Store::borrowMovie(int customerId, char mediaType, char movieType,
 bool Store::returnMovie(int customerId, char mediaType, char movieType,
                         const std::string &movieInfo) {
   if (mediaType != 'D') {
-    std::cerr << "Error: Invalid media type " << mediaType << std::endl;
+    std::cout << "Invalid media type " << mediaType << ", discarding line: " << movieType << " " << movieInfo << std::endl;
     return false;
   }
 
   Customer *customer = findCustomer(customerId);
   if (customer == nullptr) {
-    std::cerr << "Error: Customer " << customerId << " not found" << std::endl;
+    std::cout << "Invalid customer ID " << customerId << ", discarding line: " << mediaType << " " << movieType << " " << movieInfo << std::endl;
     return false;
   }
 
   Movie *movie = findMovie(movieType, movieInfo);
   if (movie == nullptr) {
-    std::cerr << "Error: Movie not found: " << movieInfo << std::endl;
-    return false;
+    std::cout << "Invalid movie for customer " << customer->getFullName() << ", discarding line: " << movieInfo << std::endl;
+    return false; 
   }
 
   movie->returnMovie();
@@ -250,8 +237,6 @@ bool Store::returnMovie(int customerId, char mediaType, char movieType,
 
 void Store::displayInventory() {
   std::cout << "INVENTORY:" << std::endl;
-
-  // Movies are automatically sorted by the MovieComparator in the set
   for (const auto &movie : movies) {
     std::cout << movie->toString() << std::endl;
   }
@@ -264,39 +249,26 @@ void Store::displayCustomerHistory(int customerId) {
     std::cerr << "Error: Customer " << customerId << " not found" << std::endl;
     return;
   }
-
   customer->displayHistory();
 }
 
-std::string Store::parseMovieSearchCriteria(char /* genre */,
-                                            const std::string &info) {
+std::string Store::parseMovieSearchCriteria(char, const std::string &info) {
   std::string result = info;
   trimString(result);
   return result;
 }
 
 void Store::trimString(std::string &str) {
-  // Remove leading whitespace
-  str.erase(str.begin(),
-            std::find_if(str.begin(), str.end(), [](unsigned char ch) {
-              return std::isspace(ch) == 0;
-            }));
-
-  // Remove trailing whitespace
-  str.erase(std::find_if(str.rbegin(), str.rend(),
-                         [](unsigned char ch) { return std::isspace(ch) == 0; })
-                .base(),
-            str.end());
+  str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](unsigned char ch) { return !std::isspace(ch); }));
+  str.erase(std::find_if(str.rbegin(), str.rend(), [](unsigned char ch) { return !std::isspace(ch); }).base(), str.end());
 }
 
 std::vector<std::string> Store::split(const std::string &str, char delimiter) {
   std::vector<std::string> tokens;
   std::stringstream ss(str);
   std::string token;
-
   while (std::getline(ss, token, delimiter)) {
     tokens.push_back(token);
   }
-
   return tokens;
 }

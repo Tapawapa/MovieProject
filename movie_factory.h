@@ -72,7 +72,7 @@ public:
     int index = hash(key);
     Node *newNode = new Node(key, value);
 
-    if (!table[index]) {
+    if (table[index] == nullptr) {
       table[index] = newNode;
     } else {
       Node *current = table[index];

@@ -159,10 +159,12 @@ Command *CommandFactory::createCommand(const std::string &line) {
   if (it != creators.end()) {
     Command *cmd = it->second(line);
     if (cmd == nullptr) {
-      std::cerr << "Error: Invalid command format: " << line << std::endl;
+      // Invalid command format is handled by the command's create function
     }
     return cmd;
   }
-  std::cerr << "Error: Unknown command type '" << cmdType << "'" << std::endl;
+  
+  // Changed to match sample output
+  std::cout << "Unknown command type: " << cmdType << ", discarding line: " << line << std::endl;
   return nullptr;
 }

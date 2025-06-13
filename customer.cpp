@@ -9,7 +9,7 @@ Transaction::Transaction(Type type, Movie *movie) : type(type), movie(movie) {}
 std::string Transaction::toString() const {
   std::string action = (type == BORROW) ? "Borrowed" : "Returned";
   if (movie != nullptr) {
-    return action + " " + movie->toString();
+    return action + " " + movie->getTitle(); // Simplified
   }
   return action + " [Unknown Movie]";
 }
@@ -26,18 +26,25 @@ void Customer::addTransaction(Transaction::Type type, Movie *movie) {
 }
 
 void Customer::displayHistory() const {
-  std::cout << "Transaction history for " << getFullName() << " (ID: " << id
-            << "):" << std::endl;
+  // Corrected header to match sample output
+  std::cout << "History for " << id << " " << getFullName() << ":" << std::endl;
 
   if (history.empty()) {
-    std::cout << "No transactions found." << std::endl;
+    std::cout << "No history for " << getFullName() << std::endl;
+    // The sample doesn't have an extra blank line here, so removed it.
     return;
   }
 
-  // Display transactions in chronological order (first transaction first)
-  for (size_t i = 0; i < history.size(); ++i) {
-    std::cout << std::setw(3) << (i + 1) << ". " << history[i].toString()
-              << std::endl;
+  for (const auto &txn : history) {
+    std::string action = (txn.getType() == Transaction::BORROW) ? "Borrow" : "Return";
+    const Movie* movie = txn.getMovie();
+    if(movie != nullptr) {
+        // The history line in the sample doesn't include the customer name again
+        // Let's re-verify sample: "Borrow Mouse Minnie Good Morning Vietnam"
+        // It seems my previous fix was not quite right.
+        std::cout << action << " " << getFullName() << " " << movie->getTitle() << std::endl;
+    }
   }
-  std::cout << std::endl; // Add blank line after history
+  // The sample has a blank line after each history block
+  std::cout << std::endl;
 }
