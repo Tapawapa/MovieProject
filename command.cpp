@@ -106,7 +106,7 @@ bool InventoryCommand::execute(Store &store) {
 std::string InventoryCommand::toString() const { return "Display Inventory"; }
 
 // Factory method to create a new InventoryCommand.
-Command *InventoryCommand::create(const std::string &) {
+Command *InventoryCommand::create(const std::string & /*unused*/) {
   return new InventoryCommand();
 }
 
@@ -176,7 +176,8 @@ Command *CommandFactory::createCommand(const std::string &line) {
     }
     return cmd;
   }
-  
-  std::cout << "Unknown command type: " << cmdType << ", discarding line: " << line << std::endl;
+
+  std::cout << "Unknown command type: " << cmdType
+            << ", discarding line: " << line << std::endl;
   return nullptr;
 }

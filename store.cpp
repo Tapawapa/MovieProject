@@ -26,9 +26,9 @@ bool Store::loadMovies(const std::string &filename) {
       continue;
     }
 
-    std::string temp_line = line;
-    trimString(temp_line);
-    std::vector<std::string> parts = split(temp_line, ',');
+    std::string tempLine = line;
+    trimString(tempLine);
+    std::vector<std::string> parts = split(tempLine, ',');
 
     if (parts.size() < 5) {
       std::cerr << "Error: Invalid movie format: " << line << std::endl;
@@ -62,7 +62,8 @@ bool Store::loadMovies(const std::string &filename) {
     if (movie != nullptr) {
       movies.insert(std::unique_ptr<Movie>(movie));
     } else {
-      std::cout << "Unknown movie type: " << genre << ", discarding line: " << line << std::endl;
+      std::cout << "Unknown movie type: " << genre
+                << ", discarding line: " << line << std::endl;
     }
   }
 
@@ -136,10 +137,13 @@ Movie *Store::findMovie(char genre, const std::string &searchCriteria) {
           int searchYear = 0;
           try {
             searchYear = std::stoi(parts[1]);
-          } catch (...) { continue; }
+          } catch (...) {
+            continue;
+          }
 
           const Comedy *comedy = dynamic_cast<const Comedy *>(moviePtr.get());
-          if (comedy && comedy->getTitle() == searchTitle && comedy->getYear() == searchYear) {
+          if ((comedy != nullptr) && comedy->getTitle() == searchTitle &&
+              comedy->getYear() == searchYear) {
             return moviePtr.get();
           }
         }
@@ -152,21 +156,26 @@ Movie *Store::findMovie(char genre, const std::string &searchCriteria) {
           trimString(searchTitle);
 
           const Drama *drama = dynamic_cast<const Drama *>(moviePtr.get());
-          if (drama && drama->getDirector() == searchDirector && drama->getTitle() == searchTitle) {
+          if ((drama != nullptr) && drama->getDirector() == searchDirector &&
+              drama->getTitle() == searchTitle) {
             return moviePtr.get();
           }
         }
       } else if (genre == 'C') { // Classic: Month Year Actor
         std::istringstream iss(parsedCriteria);
-        int searchMonth = 0, searchYear = 0;
-        std::string actorFirstName, actorLastName;
-        
+        int searchMonth = 0;
+        int searchYear = 0;
+        std::string actorFirstName;
+        std::string actorLastName;
+
         iss >> searchMonth >> searchYear >> actorFirstName >> actorLastName;
         std::string searchActor = actorFirstName + " " + actorLastName;
         trimString(searchActor);
 
         const Classic *classic = dynamic_cast<const Classic *>(moviePtr.get());
-        if (classic && classic->getMonth() == searchMonth && classic->getYear() == searchYear && classic->getActor() == searchActor) {
+        if ((classic != nullptr) && classic->getMonth() == searchMonth &&
+            classic->getYear() == searchYear &&
+            classic->getActor() == searchActor) {
           return moviePtr.get();
         }
       }
@@ -188,27 +197,34 @@ Customer *Store::findCustomer(int customerId) {
 bool Store::borrowMovie(int customerId, char mediaType, char movieType,
                         const std::string &movieInfo) {
   if (mediaType != 'D') {
-    std::cout << "Invalid media type " << mediaType << ", discarding line: " << movieType << " " << movieInfo << std::endl;
+    std::cout << "Invalid media type " << mediaType
+              << ", discarding line: " << movieType << " " << movieInfo
+              << std::endl;
     return false;
   }
 
   Customer *customer = findCustomer(customerId);
   if (customer == nullptr) {
-    std::cout << "Invalid customer ID " << customerId << ", discarding line: " << mediaType << " " << movieType << " " << movieInfo << std::endl;
+    std::cout << "Invalid customer ID " << customerId
+              << ", discarding line: " << mediaType << " " << movieType << " "
+              << movieInfo << std::endl;
     return false;
   }
 
   Movie *movie = findMovie(movieType, movieInfo);
   if (movie == nullptr) {
-    std::cout << "Invalid movie for customer " << customer->getFullName() << ", discarding line: " << movieInfo << std::endl;
-    return false; 
+    std::cout << "Invalid movie for customer " << customer->getFullName()
+              << ", discarding line: " << movieInfo << std::endl;
+    return false;
   }
 
   if (!movie->borrowMovie()) {
     std::cout << "==========================" << std::endl;
-    std::cout << customer->getFullName() << " could NOT borrow " << movie->getTitle() << ", out of stock: " << std::endl;
+    std::cout << customer->getFullName() << " could NOT borrow "
+              << movie->getTitle() << ", out of stock: " << std::endl;
     std::cout << "==========================" << std::endl;
-    std::cout << "Failed to execute command: Borrow " << customer->getFullName() << " " << movie->getTitle() << std::endl;
+    std::cout << "Failed to execute command: Borrow " << customer->getFullName()
+              << " " << movie->getTitle() << std::endl;
     return false;
   }
 
@@ -220,20 +236,25 @@ bool Store::borrowMovie(int customerId, char mediaType, char movieType,
 bool Store::returnMovie(int customerId, char mediaType, char movieType,
                         const std::string &movieInfo) {
   if (mediaType != 'D') {
-    std::cout << "Invalid media type " << mediaType << ", discarding line: " << movieType << " " << movieInfo << std::endl;
+    std::cout << "Invalid media type " << mediaType
+              << ", discarding line: " << movieType << " " << movieInfo
+              << std::endl;
     return false;
   }
 
   Customer *customer = findCustomer(customerId);
   if (customer == nullptr) {
-    std::cout << "Invalid customer ID " << customerId << ", discarding line: " << mediaType << " " << movieType << " " << movieInfo << std::endl;
+    std::cout << "Invalid customer ID " << customerId
+              << ", discarding line: " << mediaType << " " << movieType << " "
+              << movieInfo << std::endl;
     return false;
   }
 
   Movie *movie = findMovie(movieType, movieInfo);
   if (movie == nullptr) {
-    std::cout << "Invalid movie for customer " << customer->getFullName() << ", discarding line: " << movieInfo << std::endl;
-    return false; 
+    std::cout << "Invalid movie for customer " << customer->getFullName()
+              << ", discarding line: " << movieInfo << std::endl;
+    return false;
   }
 
   movie->returnMovie();
@@ -261,7 +282,8 @@ void Store::displayCustomerHistory(int customerId) {
 }
 
 // Parses movie search criteria from a raw string.
-std::string Store::parseMovieSearchCriteria(char, const std::string &info) {
+std::string Store::parseMovieSearchCriteria(char /*unused*/,
+                                            const std::string &info) {
   std::string result = info;
   trimString(result);
   return result;
@@ -269,8 +291,13 @@ std::string Store::parseMovieSearchCriteria(char, const std::string &info) {
 
 // Removes leading and trailing whitespace from a string.
 void Store::trimString(std::string &str) {
-  str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](unsigned char ch) { return !std::isspace(ch); }));
-  str.erase(std::find_if(str.rbegin(), str.rend(), [](unsigned char ch) { return !std::isspace(ch); }).base(), str.end());
+  str.erase(str.begin(),
+            std::find_if(str.begin(), str.end(),
+                         [](unsigned char ch) { return !std::isspace(ch); }));
+  str.erase(std::find_if(str.rbegin(), str.rend(),
+                         [](unsigned char ch) { return !std::isspace(ch); })
+                .base(),
+            str.end());
 }
 
 // Splits a string by a delimiter into a vector of strings.

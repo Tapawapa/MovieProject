@@ -37,10 +37,12 @@ void Customer::displayHistory() const {
   }
 
   for (const auto &txn : history) {
-    std::string action = (txn.getType() == Transaction::BORROW) ? "Borrow" : "Return";
-    const Movie* movie = txn.getMovie();
-    if(movie != nullptr) {
-        std::cout << action << " " << getFullName() << " " << movie->getTitle() << std::endl;
+    std::string action =
+        (txn.getType() == Transaction::BORROW) ? "Borrow" : "Return";
+    const Movie *movie = txn.getMovie();
+    if (movie != nullptr) {
+      std::cout << action << " " << getFullName() << " " << movie->getTitle()
+                << std::endl;
     }
   }
   std::cout << std::endl;

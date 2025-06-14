@@ -1,0 +1,196 @@
+Fri Jun 13 05:14:55 PM PDT 2025
+Linux csslab15.uwb.edu 5.14.0-503.35.1.el9_5.x86_64 #1 SMP PREEMPT_DYNAMIC Thu Apr 3 12:12:16 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+uid=1419673(tshafa) gid=2121419673(tshafa) groups=2121419673(tshafa),605559(lab-access) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+=====================================================
+1. If the section below is empty, the program compiles 
+   without warnings with -Wall -Wextra flags
+=====================================================
+=====================================================
+2. If the section below is empty or has the expected output 
+    the program puns and produces correct output
+=====================================================
+>>>>>> HELLO! THIS IS THE NEW, UPDATED VERSION OF THE PROGRAM! <<<<<<
+Unknown movie type: Z, discarding line: Z, 10, Hal Ashby, Harold and Maude, Bud Cort 3 1971
+Unknown movie type: Z, discarding line: Z, 10, Frank Capra, It's a Wonderful Life, James Steward 11 1946
+INVENTORY:
+Comedy: Annie Hall (1977) Dir: Woody Allen Stock: 10 Out: 0
+Comedy: Fargo (1996) Dir: Joel Coen Stock: 10 Out: 0
+Comedy: National Lampoon's Animal House (1978) Dir: John Landis Stock: 10 Out: 0
+Comedy: Pirates of the Caribbean (2000) Dir: Different Years Stock: 10 Out: 0
+Comedy: Pirates of the Caribbean (2003) Dir: Gore Verbinski Stock: 10 Out: 0
+Comedy: Sleepless in Seattle (1993) Dir: Nora Ephron Stock: 10 Out: 0
+Comedy: When Harry Met Sally (1989) Dir: Rob Reiner Stock: 10 Out: 0
+Comedy: You've Got Mail (1998) Dir: Nora Ephron Stock: 10 Out: 0
+Drama: Barry Levinson, Good Morning Vietnam (1988) Stock: 10 Out: 0
+Drama: Barry Levinson, Same Director Good Morning Vietnam (1988) Stock: 10 Out: 0
+Drama: Clint Eastwood, Unforgiven (1992) Stock: 10 Out: 0
+Drama: Gus Van Sant, Good Will Hunting (2000) Stock: 10 Out: 0
+Drama: Jonathan Demme, Silence of the Lambs (1991) Stock: 10 Out: 0
+Drama: Nancy Savoca, Dogfight (1991) Stock: 10 Out: 0
+Drama: Phillippe De Broca, King of Hearts (1967) Stock: 10 Out: 0
+Drama: Steven Spielberg, Schindler's List (1993) Stock: 10 Out: 0
+Classic: 2 1939 Clark Gable - Gone With the Wind Dir: Victor Fleming Stock: 10 Out: 0
+Classic: 2 1939 Vivien Leigh - Gone With the Wind Dir: Victor Fleming Stock: 10 Out: 0
+Classic: 2 1971 Malcolm McDowell - A Clockwork Orange Dir: Stanley Kubrick Stock: 10 Out: 0
+Classic: 3 1971 Ruth Gordon - Harold and Maude Dir: Hal Ashby Stock: 10 Out: 0
+Classic: 5 1940 Cary Grant - The Philadelphia Story Dir: George Cukor Stock: 10 Out: 0
+Classic: 5 1940 Katherine Hepburn - The Philadelphia Story Dir: George Cukor Stock: 10 Out: 0
+Classic: 7 1939 Judy Garland - The Wizard of Oz Dir: Victor Fleming Stock: 10 Out: 0
+Classic: 8 1942 Humphrey Bogart - Casablanca Dir: Michael Curtiz Stock: 10 Out: 0
+Classic: 8 1942 Ingrid Bergman - Casablanca Dir: Michael Curtiz Stock: 10 Out: 0
+Classic: 9 1938 Cary Grant - Holiday Dir: George Cukor Stock: 10 Out: 0
+Classic: 9 1938 Katherine Hepburn - Holiday Dir: George Cukor Stock: 10 Out: 0
+Classic: 10 1941 Humphrey Bogart - The Maltese Falcon Dir: John Huston Stock: 10 Out: 0
+Classic: 11 1946 Donna Reed - It's a Wonderful Life Dir: Frank Capra Stock: 10 Out: 0
+Classic: 11 1946 James Steward - It's a Wonderful Life Dir: Frank Capra Stock: 10 Out: 0
+
+History for 1000 Minnie Mouse:
+No history for Minnie Mouse
+History for 5000 Freddie Frog:
+No history for Freddie Frog
+History for 8000 Wally Wacky:
+No history for Wally Wacky
+Invalid movie for customer Mickey Mouse, discarding line: 2 1971 Malcolm McDowell
+Unknown command type: X, discarding line: X
+Unknown command type: Z, discarding line: Z 1000 D C 10 1941 Humphrey Bogart
+Invalid customer ID 1234, discarding line: D C 2 1971 Malcolm McDowell
+Invalid movie for customer Minnie Mouse, discarding line: Bogus Title, 2001
+Invalid media type Z, discarding line: F Fargo, 1996
+==========================
+Larry Lizard could NOT borrow Harold and Maude, out of stock: 
+==========================
+Failed to execute command: Borrow Larry Lizard Harold and Maude
+==========================
+Wicked Witch could NOT borrow Harold and Maude, out of stock: 
+==========================
+Failed to execute command: Borrow Wicked Witch Harold and Maude
+==========================
+Sammy Spider could NOT borrow Harold and Maude, out of stock: 
+==========================
+Failed to execute command: Borrow Sammy Spider Harold and Maude
+Invalid movie for customer Minnie Mouse, discarding line: Steven Spielberg, Bogus Title,
+INVENTORY:
+Comedy: Annie Hall (1977) Dir: Woody Allen Stock: 9 Out: 1
+Comedy: Fargo (1996) Dir: Joel Coen Stock: 9 Out: 1
+Comedy: National Lampoon's Animal House (1978) Dir: John Landis Stock: 9 Out: 1
+Comedy: Pirates of the Caribbean (2000) Dir: Different Years Stock: 10 Out: 0
+Comedy: Pirates of the Caribbean (2003) Dir: Gore Verbinski Stock: 10 Out: 0
+Comedy: Sleepless in Seattle (1993) Dir: Nora Ephron Stock: 9 Out: 1
+Comedy: When Harry Met Sally (1989) Dir: Rob Reiner Stock: 9 Out: 1
+Comedy: You've Got Mail (1998) Dir: Nora Ephron Stock: 9 Out: 1
+Drama: Barry Levinson, Good Morning Vietnam (1988) Stock: 9 Out: 1
+Drama: Barry Levinson, Same Director Good Morning Vietnam (1988) Stock: 10 Out: 0
+Drama: Clint Eastwood, Unforgiven (1992) Stock: 9 Out: 1
+Drama: Gus Van Sant, Good Will Hunting (2000) Stock: 9 Out: 1
+Drama: Jonathan Demme, Silence of the Lambs (1991) Stock: 9 Out: 1
+Drama: Nancy Savoca, Dogfight (1991) Stock: 8 Out: 2
+Drama: Phillippe De Broca, King of Hearts (1967) Stock: 9 Out: 1
+Drama: Steven Spielberg, Schindler's List (1993) Stock: 9 Out: 1
+Classic: 2 1939 Clark Gable - Gone With the Wind Dir: Victor Fleming Stock: 10 Out: 0
+Classic: 2 1939 Vivien Leigh - Gone With the Wind Dir: Victor Fleming Stock: 10 Out: 0
+Classic: 2 1971 Malcolm McDowell - A Clockwork Orange Dir: Stanley Kubrick Stock: 9 Out: 1
+Classic: 3 1971 Ruth Gordon - Harold and Maude Dir: Hal Ashby Stock: 0 Out: 10
+Classic: 5 1940 Cary Grant - The Philadelphia Story Dir: George Cukor Stock: 9 Out: 1
+Classic: 5 1940 Katherine Hepburn - The Philadelphia Story Dir: George Cukor Stock: 9 Out: 1
+Classic: 7 1939 Judy Garland - The Wizard of Oz Dir: Victor Fleming Stock: 10 Out: 0
+Classic: 8 1942 Humphrey Bogart - Casablanca Dir: Michael Curtiz Stock: 10 Out: 0
+Classic: 8 1942 Ingrid Bergman - Casablanca Dir: Michael Curtiz Stock: 10 Out: 0
+Classic: 9 1938 Cary Grant - Holiday Dir: George Cukor Stock: 9 Out: 1
+Classic: 9 1938 Katherine Hepburn - Holiday Dir: George Cukor Stock: 10 Out: 0
+Classic: 10 1941 Humphrey Bogart - The Maltese Falcon Dir: John Huston Stock: 9 Out: 1
+Classic: 11 1946 Donna Reed - It's a Wonderful Life Dir: Frank Capra Stock: 10 Out: 0
+Classic: 11 1946 James Steward - It's a Wonderful Life Dir: Frank Capra Stock: 10 Out: 0
+
+History for 1000 Minnie Mouse:
+Borrow Minnie Mouse Good Morning Vietnam
+Borrow Minnie Mouse The Philadelphia Story
+Borrow Minnie Mouse Good Will Hunting
+Borrow Minnie Mouse The Philadelphia Story
+Borrow Minnie Mouse Harold and Maude
+
+History for 1111 Mickey Mouse:
+Borrow Mickey Mouse A Clockwork Orange
+Borrow Mickey Mouse Harold and Maude
+Borrow Mickey Mouse The Maltese Falcon
+Borrow Mickey Mouse Holiday
+
+History for 5000 Freddie Frog:
+Borrow Freddie Frog Harold and Maude
+Return Freddie Frog Harold and Maude
+Borrow Freddie Frog Harold and Maude
+Return Freddie Frog Harold and Maude
+Borrow Freddie Frog Harold and Maude
+Return Freddie Frog Harold and Maude
+Borrow Freddie Frog Harold and Maude
+
+History for 8000 Wally Wacky:
+Borrow Wally Wacky You've Got Mail
+Return Wally Wacky You've Got Mail
+Borrow Wally Wacky Harold and Maude
+Borrow Wally Wacky Harold and Maude
+Borrow Wally Wacky National Lampoon's Animal House
+
+History for 8888 Porky Pig:
+Borrow Porky Pig Annie Hall
+Borrow Porky Pig When Harry Met Sally
+Borrow Porky Pig Silence of the Lambs
+Borrow Porky Pig Dogfight
+Borrow Porky Pig Harold and Maude
+
+Done.
+=====================================================
+3. If the section below is empty, then there are no clang-tidy warnings 
+   (ignore warnings from system headers, such as "13554 warnings generated.")
+=====================================================
+[1/6] Processing file /home/NETID/tshafa/finalMovie/MovieProject/command.cpp.
+25403 warnings generated.
+[2/6] Processing file /home/NETID/tshafa/finalMovie/MovieProject/customer.cpp.
+46125 warnings generated.
+[3/6] Processing file /home/NETID/tshafa/finalMovie/MovieProject/main.cpp.
+61085 warnings generated.
+[4/6] Processing file /home/NETID/tshafa/finalMovie/MovieProject/movie.cpp.
+83382 warnings generated.
+[5/6] Processing file /home/NETID/tshafa/finalMovie/MovieProject/store.cpp.
+112082 warnings generated.
+[6/6] Processing file /home/NETID/tshafa/finalMovie/MovieProject/store_test.cpp.
+137477 warnings generated.
+Suppressed 137477 warnings (137477 in non-user code).
+Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+=====================================================
+4. If the section below is empty, clang-format does not find any formatting issues
+   You can fix formatting errors using "clang-format -i <filename>" on command line
+=====================================================
+Running clang-format on ./command.cpp
+Running clang-format on ./customer.cpp
+Running clang-format on ./main.cpp
+Running clang-format on ./movie.cpp
+Running clang-format on ./store.cpp
+Running clang-format on ./store_test.cpp
+=====================================================
+5. If there are any memory leaks, it should be in the output below
+=====================================================
+=====================================================
+6. Using valgrind to check for memory leaks
+   Check for "definitely lost" in the output below
+=====================================================
+==2496861== Memcheck, a memory error detector
+==2496861== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==2496861== Using Valgrind-3.23.0 and LibVEX; rerun with -h for copyright info
+==2496861== Command: ./a.out
+==2496861== Parent PID: 2496720
+==2496861== 
+==2496861== 
+==2496861== HEAP SUMMARY:
+==2496861==     in use at exit: 0 bytes in 0 blocks
+==2496861==   total heap usage: 1,556 allocs, 1,556 frees, 173,301 bytes allocated
+==2496861== 
+==2496861== All heap blocks were freed -- no leaks are possible
+==2496861== 
+==2496861== For lists of detected and suppressed errors, rerun with: -s
+==2496861== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Fri Jun 13 05:15:27 PM PDT 2025
+=====================================================
+To create an output.txt file with all the output from this script
+Run the below command
+      ./create-output.sh > output.txt 2>&1 
+=====================================================
