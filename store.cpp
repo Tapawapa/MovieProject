@@ -9,10 +9,10 @@
 #include <sstream>
 #include <vector>
 
-Store::Store() {
-  // Constructor - containers are initialized automatically
-}
+// Constructs a new Store object.
+Store::Store() {}
 
+// Loads movies from a specified file into the store's inventory.
 bool Store::loadMovies(const std::string &filename) {
   std::ifstream file(filename);
   if (!file.is_open()) {
@@ -69,6 +69,7 @@ bool Store::loadMovies(const std::string &filename) {
   return true;
 }
 
+// Loads customer data from a specified file.
 bool Store::loadCustomers(const std::string &filename) {
   std::ifstream file(filename);
   if (!file.is_open()) {
@@ -98,6 +99,7 @@ bool Store::loadCustomers(const std::string &filename) {
   return true;
 }
 
+// Processes a file of commands.
 bool Store::processCommands(const std::string &filename) {
   std::ifstream file(filename);
   if (!file.is_open()) {
@@ -120,6 +122,7 @@ bool Store::processCommands(const std::string &filename) {
   return true;
 }
 
+// Finds a movie in the inventory based on its genre and search criteria.
 Movie *Store::findMovie(char genre, const std::string &searchCriteria) {
   std::string parsedCriteria = parseMovieSearchCriteria(genre, searchCriteria);
 
@@ -172,6 +175,7 @@ Movie *Store::findMovie(char genre, const std::string &searchCriteria) {
   return nullptr;
 }
 
+// Finds a customer in the store by their ID.
 Customer *Store::findCustomer(int customerId) {
   Customer *customer = nullptr;
   if (customers.find(customerId, customer)) {
@@ -180,6 +184,7 @@ Customer *Store::findCustomer(int customerId) {
   return nullptr;
 }
 
+// Processes a movie borrow transaction.
 bool Store::borrowMovie(int customerId, char mediaType, char movieType,
                         const std::string &movieInfo) {
   if (mediaType != 'D') {
@@ -211,6 +216,7 @@ bool Store::borrowMovie(int customerId, char mediaType, char movieType,
   return true;
 }
 
+// Processes a movie return transaction.
 bool Store::returnMovie(int customerId, char mediaType, char movieType,
                         const std::string &movieInfo) {
   if (mediaType != 'D') {
@@ -235,6 +241,7 @@ bool Store::returnMovie(int customerId, char mediaType, char movieType,
   return true;
 }
 
+// Displays the current inventory of all movies.
 void Store::displayInventory() {
   std::cout << "INVENTORY:" << std::endl;
   for (const auto &movie : movies) {
@@ -243,6 +250,7 @@ void Store::displayInventory() {
   std::cout << std::endl;
 }
 
+// Displays the transaction history for a given customer.
 void Store::displayCustomerHistory(int customerId) {
   Customer *customer = findCustomer(customerId);
   if (customer == nullptr) {
@@ -252,17 +260,20 @@ void Store::displayCustomerHistory(int customerId) {
   customer->displayHistory();
 }
 
+// Parses movie search criteria from a raw string.
 std::string Store::parseMovieSearchCriteria(char, const std::string &info) {
   std::string result = info;
   trimString(result);
   return result;
 }
 
+// Removes leading and trailing whitespace from a string.
 void Store::trimString(std::string &str) {
   str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](unsigned char ch) { return !std::isspace(ch); }));
   str.erase(std::find_if(str.rbegin(), str.rend(), [](unsigned char ch) { return !std::isspace(ch); }).base(), str.end());
 }
 
+// Splits a string by a delimiter into a vector of strings.
 std::vector<std::string> Store::split(const std::string &str, char delimiter) {
   std::vector<std::string> tokens;
   std::stringstream ss(str);

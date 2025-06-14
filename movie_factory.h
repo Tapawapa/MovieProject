@@ -7,15 +7,18 @@
 
 class Movie;
 
-// Movie Factory using self-registration pattern
+// Factory for creating movie objects from strings.
 class MovieFactory {
 public:
   using CreateFunction = std::function<Movie *(
       int, const std::string &, const std::string &, const std::string &)>;
 
+  // Gets the singleton instance of the factory.
   static MovieFactory &getInstance();
 
+  // Registers a movie type with a creation function.
   bool registerMovie(char genre, CreateFunction func);
+  // Creates a movie object from data.
   Movie *createMovie(char genre, int stock, const std::string &director,
                      const std::string &title, const std::string &extra);
 
@@ -24,7 +27,7 @@ private:
   MovieFactory() = default;
 };
 
-// Custom Hash Table for Customer lookup
+// A simple hash table implementation for customer lookups.
 template <typename K, typename V> class HashTable {
 private:
   struct Node {
@@ -34,9 +37,10 @@ private:
     Node(const K &k, const V &v) : key(k), value(v), next(nullptr) {}
   };
 
-  static const int TABLE_SIZE = 101; // Prime number for better distribution
+  static const int TABLE_SIZE = 101;
   Node *table[TABLE_SIZE];
 
+  // Hashes a key to an index in the table.
   int hash(const K &key) const {
     if constexpr (std::is_same_v<K, int>) {
       return key % TABLE_SIZE;
@@ -51,12 +55,14 @@ private:
   }
 
 public:
+  // Constructs a new HashTable.
   HashTable() {
     for (int i = 0; i < TABLE_SIZE; i++) {
       table[i] = nullptr;
     }
   }
 
+  // Destroys the HashTable and frees memory.
   ~HashTable() {
     for (int i = 0; i < TABLE_SIZE; i++) {
       Node *current = table[i];
@@ -68,6 +74,7 @@ public:
     }
   }
 
+  // Inserts a key-value pair into the hash table.
   void insert(const K &key, const V &value) {
     int index = hash(key);
     Node *newNode = new Node(key, value);
@@ -78,7 +85,7 @@ public:
       Node *current = table[index];
       while (current->next) {
         if (current->key == key) {
-          current->value = value; // Update existing
+          current->value = value;
           delete newNode;
           return;
         }
@@ -93,6 +100,7 @@ public:
     }
   }
 
+  // Finds a value by its key.
   bool find(const K &key, V &value) const {
     int index = hash(key);
     Node *current = table[index];
@@ -107,6 +115,7 @@ public:
     return false;
   }
 
+  // Checks if a key exists in the hash table.
   bool exists(const K &key) const {
     V dummy;
     return find(key, dummy);

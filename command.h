@@ -6,27 +6,33 @@
 #include <sstream>
 #include <string>
 
-class Store; // Forward declaration
+class Store;
 
-// Base Command class
+// Abstract base class for all command types.
 class Command {
 public:
   virtual ~Command() = default;
+  // Executes the command on the given store.
   virtual bool execute(Store &store) = 0;
+  // Returns a string representation of the command.
   virtual std::string toString() const = 0;
 };
 
-// Borrow Command
+// Command to handle borrowing a movie.
 class BorrowCommand : public Command {
 public:
+  // Constructs a BorrowCommand.
   BorrowCommand(int customerId, char mediaType, char movieType,
                 const std::string &movieInfo);
 
+  // Executes the borrow command.
   bool execute(Store &store) override;
+  // Returns a string representation of the borrow command.
   std::string toString() const override;
 
-  // Static factory method with self-registration
+  // Creates a BorrowCommand from a command line string.
   static Command *create(const std::string &line);
+  // Registers this command type with the factory.
   static bool registerSelf();
 
 private:
@@ -37,17 +43,21 @@ private:
   static bool registered;
 };
 
-// Return Command
+// Command to handle returning a movie.
 class ReturnCommand : public Command {
 public:
+  // Constructs a ReturnCommand.
   ReturnCommand(int customerId, char mediaType, char movieType,
                 const std::string &movieInfo);
 
+  // Executes the return command.
   bool execute(Store &store) override;
+  // Returns a string representation of the return command.
   std::string toString() const override;
 
-  // Static factory method with self-registration
+  // Creates a ReturnCommand from a command line string.
   static Command *create(const std::string &line);
+  // Registers this command type with the factory.
   static bool registerSelf();
 
 private:
@@ -58,32 +68,39 @@ private:
   static bool registered;
 };
 
-// Inventory Command
+// Command to display the store's inventory.
 class InventoryCommand : public Command {
 public:
   InventoryCommand() = default;
 
+  // Executes the inventory display command.
   bool execute(Store &store) override;
+  // Returns a string representation of the inventory command.
   std::string toString() const override;
 
-  // Static factory method with self-registration
+  // Creates an InventoryCommand from a command line string.
   static Command *create(const std::string &line);
+  // Registers this command type with the factory.
   static bool registerSelf();
 
 private:
   static bool registered;
 };
 
-// History Command
+// Command to display a customer's history.
 class HistoryCommand : public Command {
 public:
+  // Constructs a HistoryCommand.
   explicit HistoryCommand(int customerId);
 
+  // Executes the history display command.
   bool execute(Store &store) override;
+  // Returns a string representation of the history command.
   std::string toString() const override;
 
-  // Static factory method with self-registration
+  // Creates a HistoryCommand from a command line string.
   static Command *create(const std::string &line);
+  // Registers this command type with the factory.
   static bool registerSelf();
 
 private:
@@ -91,14 +108,17 @@ private:
   static bool registered;
 };
 
-// Command Factory using self-registration pattern
+// Factory for creating command objects from strings.
 class CommandFactory {
 public:
   using CreateFunction = std::function<Command *(const std::string &)>;
 
+  // Gets the singleton instance of the factory.
   static CommandFactory &getInstance();
 
+  // Registers a command type with a creation function.
   bool registerCommand(char cmdType, CreateFunction func);
+  // Creates a command object from a command line string.
   Command *createCommand(const std::string &line);
 
 private:

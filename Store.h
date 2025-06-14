@@ -14,11 +14,10 @@
 class Movie;
 class Command;
 
-// Custom comparator for movies to maintain sorted order
+// Custom comparator for sorting movies in the inventory.
 struct MovieComparator {
   bool operator()(const std::unique_ptr<Movie> &a,
                   const std::unique_ptr<Movie> &b) const {
-    // First sort by genre (Comedy, Drama, Classics)
     if (a->getGenre() != b->getGenre()) {
       if (a->getGenre() == 'F') {
         return true;
@@ -34,33 +33,38 @@ struct MovieComparator {
       }
       return false;
     }
-    // Then by movie-specific sorting criteria
     return *a < *b;
   }
 };
 
 class Store {
 public:
+  // Constructs a new Store object.
   Store();
   ~Store() = default;
 
-  // File processing
+  // Loads movies from a given file.
   bool loadMovies(const std::string &filename);
+  // Loads customers from a given file.
   bool loadCustomers(const std::string &filename);
+  // Processes commands from a given file.
   bool processCommands(const std::string &filename);
 
-  // Movie operations
+  // Finds a movie based on its genre and specific search criteria.
   Movie *findMovie(char genre, const std::string &searchCriteria);
+  // Handles the borrowing of a movie by a customer.
   bool borrowMovie(int customerId, char mediaType, char movieType,
                    const std::string &movieInfo);
+  // Handles the return of a movie by a customer.
   bool returnMovie(int customerId, char mediaType, char movieType,
                    const std::string &movieInfo);
 
-  // Customer operations
+  // Finds a customer by their ID.
   Customer *findCustomer(int customerId);
 
-  // Display operations
+  // Displays the current inventory of movies.
   void displayInventory();
+  // Displays the transaction history for a specific customer.
   void displayCustomerHistory(int customerId);
 
 private:
@@ -68,10 +72,12 @@ private:
   HashTable<int, Customer *> customers;
   std::vector<std::unique_ptr<Customer>> customerStorage;
 
-  // Helper methods
+  // Parses the search criteria string for a movie.
   static std::string parseMovieSearchCriteria(char genre,
                                               const std::string &info);
+  // Trims leading and trailing whitespace from a string.
   static void trimString(std::string &str);
+  // Splits a string into a vector of substrings based on a delimiter.
   static std::vector<std::string> split(const std::string &str, char delimiter);
 };
 
